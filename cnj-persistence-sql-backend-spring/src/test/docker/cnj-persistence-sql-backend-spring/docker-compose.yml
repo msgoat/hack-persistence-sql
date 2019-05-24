@@ -1,0 +1,57 @@
+# docker-compose.yml
+# ----------------------------------------------------------------------------
+# Composes Docker containers and volumes to a runnable Spring Boot application
+# ----------------------------------------------------------------------------
+#
+---
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:11-alpine
+    #    ports:
+    #      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeit
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: cloudtrain
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  backend:
+    image: docker.at.automotive.msg.team/cloudtrain/cnj-persistence-sql-backend-spring:latest
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: cloud
+      CNAP_CLOUD: openshift
+      # Keycloak configuration: credentials should never be stored here!
+      #      KEYCLOAK_REALM: cloudtrain
+      #      KEYCLOAL_REALM-KEY: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2/Gpj3XT96oBq+8bz5CgnDr3g521pFbbBnPZhuvsSKX9Y5w4u6OW5Qq1iVuGZSIdkPDLQdiKqsT2CxkIoJgw/CXvxA9aaUwcIIQRRgnORZmwLDqirZwddfWWUaoJs2MuyHUnD9b9iBQd/ljx5t8HCwN7m/Swil7wPqyvU4FLpO3adnpXkoh5eBggEWDgLCnsLvR//9K2sXoYdSBhvbLp6DIg2YclzeJCNTG+OlJBQJW0PSp+SB2tFBkhteFXuPf/ZDiCPPuIDNg2WG99dp2zcfDoaNvqQVoRxtWJZeOs2AOBwGxFZdf899BnlF1x+1G5Y+PrxZnJVLYrl+6YBmLUhQIDAQAB"
+      #      KEYCLOAK_AUTH-SERVER-URL: "http://192.168.99.100.9080/auth"
+      #      KEYCLOAK_RESOURCE: cnj-persistence-sql
+      #      KEYCLOAK_CREDENTIALS_SECRET: 8370c903-f0a3-4fd9-8a99-51963ed01b4d
+      #      LOGGING_LEVEL_ORG_KEYCLOAK: DEBUG
+      #      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
+      POSTGRES_DB_USER: postgres
+      POSTGRES_DB_PASSWORD: changeit
+      POSTGRES_DB_NAME: cloudtrain
+      POSTGRES_DB_HOST: postgres
+      POSTGRES_DB_PORT: 5432
+      LOGGING_LEVEL_ORG_KEYCLOAK: INFO
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: INFO
+
+    depends_on:
+      - postgres
+
+volumes:
+
+  postgres-data:
+
+
+
+
+
+  

@@ -1,0 +1,20 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>group.msg.at.cloud</groupId>
+    <artifactId>cnj-persistence-sql</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <description>Cloud native Java application showcase for persistence using relational databases</description>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+    <modules>
+        <module>cnj-persistence-sql-database</module>
+        <module>cnj-persistence-sql-backend-test</module>
+        <module>cnj-persistence-sql-backend-javaee</module>
+        <module>cnj-persistence-sql-backend-micro</module>
+        <module>cnj-persistence-sql-backend-spring</module>
+    </modules>
+</project>
