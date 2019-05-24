@@ -3,6 +3,10 @@ pipeline:
     image: docker.at.automotive.msg.team/cloudtrain/cnj-drone-mvn-k8s
     commands:
       - mvn clean deploy -f cnj-persistence-sql-backend-test/pom.xml --batch-mode --fail-fast --errors -V -U -Dsurefire.useFile=false --activate-profiles commit-stage
+  database-commit-stage:
+    image: docker.at.automotive.msg.team/cloudtrain/cnj-drone-mvn-k8s
+    commands:
+      - mvn clean deploy -f cnj-persistence-sql-database/pom.xml --batch-mode --fail-fast --errors -V -U -Dsurefire.useFile=false --activate-profiles commit-stage
   javaee-commit-stage:
     image: docker.at.automotive.msg.team/cloudtrain/cnj-drone-mvn-k8s
     commands:
