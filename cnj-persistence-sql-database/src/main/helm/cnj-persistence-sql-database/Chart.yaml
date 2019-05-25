@@ -1,0 +1,5 @@
+apiVersion: v1
+appVersion: "1.0.0"
+description: "PostgreSQL database for CloudTrain application"
+name: cnj-persistence-sql-database
+version: 1.0.0

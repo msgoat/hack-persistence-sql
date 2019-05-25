@@ -47,4 +47,8 @@ hs_err_pid*
 **/target/
 **/.flattened-pom.xml
 
+# HELM build artifacts
+**/*.tgz
+**/requirements.lock
+
 

@@ -1,0 +1,26 @@
+# Default values for cnj-persistence-sql-backend-javaee.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+postgresql:
+  ### PostgreSQL User to create.
+  ## If not set, a random 20 characters password will be used.
+  ##
+  postgresqlUsername: "postgres"
+
+  ## PostgreSQL Password for the new user.
+  ## If not set, a random 20 characters password will be used.
+  ##
+  postgresqlPassword: ""
+
+  ## PostgreSQL Database to create.
+  ##
+  postgresqlDatabase: cloudtrain
+
+  ## Persistent Volume Storage configuration.
+  ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes
+  ##
+  persistence:
+    ## Enable PostgreSQL persistence using Persistent Volume Claims.
+    ##
+    enabled: true
+    size: 32Gi
