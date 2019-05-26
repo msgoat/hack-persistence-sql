@@ -39,7 +39,7 @@ import org.springframework.web.client.RestTemplate;
  * an OpenID Connect client with Keycloak.
  * </p>
  *
- * @author michael.theis@hm.edu
+ * @author michael.theis@msg.group
  * @version 1.0
  */
 @KeycloakConfiguration

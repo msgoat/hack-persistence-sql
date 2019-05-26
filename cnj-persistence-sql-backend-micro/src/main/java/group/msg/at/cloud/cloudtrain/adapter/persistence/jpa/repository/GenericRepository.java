@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * application.
  * </p>
  *
- * @author Michael Theis (mtheis@hm.edu)
+ * @author Michael Theis (mtheis@msg.group)
  * @version 1.0
  * @since release SS2019
  */
