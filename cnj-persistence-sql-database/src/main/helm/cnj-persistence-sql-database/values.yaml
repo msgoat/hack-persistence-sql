@@ -10,7 +10,7 @@ postgresql:
   ## PostgreSQL Password for the new user.
   ## If not set, a random 20 characters password will be used.
   ##
-  postgresqlPassword: ""
+  postgresqlPassword: "changeit"
 
   ## PostgreSQL Database to create.
   ##

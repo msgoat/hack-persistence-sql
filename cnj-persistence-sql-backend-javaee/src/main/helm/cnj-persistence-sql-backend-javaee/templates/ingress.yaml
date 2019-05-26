@@ -25,15 +25,22 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-{{- if empty .Values.ingress.hosts }}
+{{- if empty .Values.ingress.host }}
     - http:
         paths:
+  {{- if empty .paths }}
+        - path: "/{{ $fullName }}"
+          backend:
+            serviceName: {{ $fullName }}
+            servicePort: http
+  {{- else }}
         {{- range .paths }}
         - path: {{ . }}
           backend:
             serviceName: {{ $fullName }}
             servicePort: http
         {{- end }}
+  {{- end }}
 {{- else }}
   {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
