@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cnj-persistence-sql-backend-micro.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "cnj-persistence-sql-backend-micro.name" . }}
+    helm.sh/chart: {{ include "cnj-persistence-sql-backend-micro.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "cnj-persistence-sql-backend-micro.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "cnj-persistence-sql-backend-micro.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probes.liveness.path }}
+              port: http
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probes.readiness.path }}
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: MP_JWT_VERIFY_PUBLICKEY_LOCATION
+              value: {{ .Values.mp.jwt.verifyPublicKeyLocation | quote }}
+            - name: MP_JWT_VERIFY_ISSUER
+              value: {{ .Values.mp.jwt.verifyIssuer | quote }}
+            - name: POSTGRES_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.postgres.secret.name }}
+                  key: {{ .Values.database.postgres.secret.keys.user }}
+            - name: POSTGRES_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.postgres.secret.name }}
+                  key: {{ .Values.database.postgres.secret.keys.password }}
+            - name: POSTGRES_DB_NAME
+              value: {{ .Values.database.postgres.name }}
+            - name: POSTGRES_DB_HOST
+              value: {{ .Values.database.postgres.host }}
+            - name: POSTGRES_DB_PORT
+              value: {{ .Values.database.postgres.port | quote }}
+{{- if .Values.image.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
+{{- end }}
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
