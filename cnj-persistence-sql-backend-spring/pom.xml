@@ -32,7 +32,7 @@
         <maven.jar.plugin.version>3.1.1</maven.jar.plugin.version>
         <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
         <maven.spring.boot.plugin.version>${spring.boot.version}</maven.spring.boot.plugin.version>
-        <maven.helm.plugin.version>0.7.5</maven.helm.plugin.version>
+        <maven.helm.plugin.version>0.7.7</maven.helm.plugin.version>
         <maven.flatten.plugin.version>1.1.0</maven.flatten.plugin.version>
         <!-- new Maven version management -->
         <revision>1.0.0</revision>
@@ -236,6 +236,12 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
                     <version>${maven.flatten.plugin.version}</version>
+                </plugin>
+                <!-- Helm Maven Plugin to install/delete Helm Charts on Kubernetes -->
+                <plugin>
+                    <groupId>group.msg.at.cloud.tools</groupId>
+                    <artifactId>helm-maven-plugin</artifactId>
+                    <version>${maven.helm.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
