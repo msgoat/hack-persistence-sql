@@ -59,8 +59,8 @@ affinity: {}
 # security configuration (MP JWT AUTH)
 mp:
   jwt:
-    verifyPublicKeyLocation: "http://10.118.19.113:30080/auth/realms/cloudtrain/protocol/openid-connect/certs"
-    verifyIssuer: "http://10.118.19.113:30080/auth/realms/cloudtrain"
+    verifyPublicKeyLocation: "http://10.118.19.114:30080/auth/realms/cloudtrain/protocol/openid-connect/certs"
+    verifyIssuer: "http://10.118.19.114:30080/auth/realms/cloudtrain"
 
 # database configuration
 database:

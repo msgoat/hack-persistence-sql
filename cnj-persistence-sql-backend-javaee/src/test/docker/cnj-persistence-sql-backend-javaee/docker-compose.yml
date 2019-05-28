@@ -25,8 +25,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      MP_JWT_VERIFY_PUBLICKEY_LOCATION: "http://10.118.19.113:30080/auth/realms/cloudtrain/protocol/openid-connect/certs"
-      MP_JWT_VERIFY_ISSUER: "http://10.118.19.113:30080/auth/realms/cloudtrain"
+      MP_JWT_VERIFY_PUBLICKEY_LOCATION: "http://10.118.19.114:30080/auth/realms/cloudtrain/protocol/openid-connect/certs"
+      MP_JWT_VERIFY_ISSUER: "http://10.118.19.114:30080/auth/realms/cloudtrain"
       POSTGRES_DB_USER: postgres
       POSTGRES_DB_PASSWORD: changeit
       POSTGRES_DB_NAME: cloudtrain
