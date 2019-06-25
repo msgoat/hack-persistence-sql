@@ -31,7 +31,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: ""
-      paths: []
+      paths: ["/cnj-persistence-sql-backend-javaee"]
 
   tls: []
   #  - secretName: chart-example-tls
@@ -59,8 +59,8 @@ affinity: {}
 # security configuration (MP JWT AUTH)
 mp:
   jwt:
-    verifyPublicKeyLocation: "http://10.118.19.114:30080/auth/realms/cloudtrain/protocol/openid-connect/certs"
-    verifyIssuer: "http://10.118.19.114:30080/auth/realms/cloudtrain"
+    verifyPublicKeyLocation: "http://k8sapps.at.automotive.msg.team/auth/realms/cloudtrain/protocol/openid-connect/certs"
+    verifyIssuer: "http://k8sapps.at.automotive.msg.team/auth/realms/cloudtrain"
 
 # database configuration
 database:

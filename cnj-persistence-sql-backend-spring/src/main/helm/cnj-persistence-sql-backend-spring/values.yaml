@@ -28,7 +28,7 @@ ingress:
     traefik.frontend.rule.type: PathPrefixStrip
   hosts:
     - host: ""
-      paths: []
+      paths: ["/cnj-persistence-sql-backend-spring"]
   tls: []
 
 resources: {}
