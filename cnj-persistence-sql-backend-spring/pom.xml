@@ -762,7 +762,7 @@
                                 <configuration>
                                     <helmChartDirectory>${project.build.directory}/helm-resources/${project.artifactId}</helmChartDirectory>
                                     <helmReleaseName>${project.artifactId}</helmReleaseName>
-                                    <helmNamespace>int</helmNamespace>
+                                    <helmReleaseNamespace>int</helmReleaseNamespace>
                                 </configuration>
                             </execution>
                             <execution>

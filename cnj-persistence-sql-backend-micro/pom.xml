@@ -777,7 +777,7 @@
                                 <configuration>
                                     <helmChartDirectory>src/main/helm/${project.artifactId}</helmChartDirectory>
                                     <helmReleaseName>${project.artifactId}</helmReleaseName>
-                                    <helmNamespace>int</helmNamespace>
+                                    <helmReleaseNamespace>int</helmReleaseNamespace>
                                     <debug>true</debug>
                                 </configuration>
                             </execution>
