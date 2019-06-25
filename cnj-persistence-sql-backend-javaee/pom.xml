@@ -711,7 +711,7 @@
                                 <id>helm-install</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
-                                    <goal>install</goal>
+                                    <goal>deploy</goal>
                                 </goals>
                                 <configuration>
                                     <helmChartDirectory>src/main/helm/${project.artifactId}</helmChartDirectory>
