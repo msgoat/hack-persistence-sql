@@ -49,7 +49,18 @@ tolerations: []
 
 affinity: {}
 
-# security configuration (MP JWT AUTH)
+
+# Keycloak Open ID Connect Provider configuration
+keycloak:
+  realm: "cloudtrain"
+  authServerUrl: "http://k8sapps.at.automotive.msg.team/auth"
+  sslRequired: "none"
+  resource: "cnj-cloudtrain"
+  credentialsSecret: "5268cc21-a423-48cc-8082-4930b070354e"
+  useResourceRoleMappings: true
+  principalAttribute: "preferred_username"
+  bearerOnly: true
+  verifyTokenAudience: false
 
 # database configuration
 database:

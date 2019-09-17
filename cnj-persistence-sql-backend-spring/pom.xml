@@ -12,7 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
+        <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
         <common.persistence.jpa.version>1.0.2</common.persistence.jpa.version>
         <docker.registry.name>docker.at.automotive.msg.team</docker.registry.name>
         <docker.organization.name>cloudtrain</docker.organization.name>
@@ -24,7 +24,7 @@
         <keycloak.version>4.8.3.Final</keycloak.version>
         <postgres.jdbc.version>42.2.5</postgres.jdbc.version>
         <maven.docker.plugin.version>0.27.2</maven.docker.plugin.version>
-        <maven.docker.compose.plugin.version>2.2.0</maven.docker.compose.plugin.version>
+        <maven.compose.plugin.version>1.0.0</maven.compose.plugin.version>
         <maven.enforcer.plugin.version>3.0.0-M2</maven.enforcer.plugin.version>
         <maven.failsafe.plugin.version>2.22.1</maven.failsafe.plugin.version>
         <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
@@ -32,11 +32,11 @@
         <maven.jar.plugin.version>3.1.1</maven.jar.plugin.version>
         <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
         <maven.spring.boot.plugin.version>${spring.boot.version}</maven.spring.boot.plugin.version>
-        <maven.helm.plugin.version>0.9.0</maven.helm.plugin.version>
+        <maven.helm.plugin.version>1.0.0</maven.helm.plugin.version>
         <helm.tillerNamespace>sys-tiller</helm.tillerNamespace>
         <maven.flatten.plugin.version>1.1.0</maven.flatten.plugin.version>
         <!-- new Maven version management -->
-        <revision>1.0.0</revision>
+        <revision>2.0.0</revision>
         <sha1></sha1>
         <changelist></changelist>
     </properties>
@@ -70,7 +70,7 @@
             <dependency>
                 <groupId>group.msg.at.cloud</groupId>
                 <artifactId>cnj-persistence-sql-database</artifactId>
-                <version>1.0.0</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.postgresql</groupId>
@@ -163,9 +163,9 @@
                     <version>${maven.docker.plugin.version}</version>
                 </plugin>
                 <plugin>
-                    <groupId>com.dkanejs.maven.plugins</groupId>
-                    <artifactId>docker-compose-maven-plugin</artifactId>
-                    <version>${maven.docker.compose.plugin.version}</version>
+                    <groupId>group.msg.at.cloud.tools</groupId>
+                    <artifactId>compose-maven-plugin</artifactId>
+                    <version>${maven.compose.plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -374,21 +374,19 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>com.dkanejs.maven.plugins</groupId>
-                        <artifactId>docker-compose-maven-plugin</artifactId>
+                        <groupId>group.msg.at.cloud.tools</groupId>
+                        <artifactId>compose-maven-plugin</artifactId>
                         <executions>
                             <execution>
                                 <id>start-docker-containers</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
-                                    <goal>up</goal>
+                                    <goal>upWithLogs</goal>
                                 </goals>
                                 <configuration>
                                     <composeFile>
                                         ${project.basedir}/src/test/docker/${project.artifactId}/docker-compose.yml
                                     </composeFile>
-                                    <detachedMode>true</detachedMode>
-                                    <verbose>false</verbose>
                                 </configuration>
                             </execution>
                             <execution>
@@ -608,21 +606,19 @@
                     </plugin>
                     <!-- start docker containers before running tests and stop them after running tests -->
                     <plugin>
-                        <groupId>com.dkanejs.maven.plugins</groupId>
-                        <artifactId>docker-compose-maven-plugin</artifactId>
+                        <groupId>group.msg.at.cloud.tools</groupId>
+                        <artifactId>compose-maven-plugin</artifactId>
                         <executions>
                             <execution>
                                 <id>start-docker-containers</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
-                                    <goal>up</goal>
+                                    <goal>upWithLogs</goal>
                                 </goals>
                                 <configuration>
                                     <composeFile>
                                         ${project.basedir}/src/test/docker/${project.artifactId}/docker-compose.yml
                                     </composeFile>
-                                    <detachedMode>true</detachedMode>
-                                    <verbose>false</verbose>
                                 </configuration>
                             </execution>
                             <execution>

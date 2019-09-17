@@ -35,7 +35,7 @@
         <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
         <maven.flatten.plugin.version>1.1.0</maven.flatten.plugin.version>
         <!-- new Maven version management -->
-        <revision>1.0.0</revision>
+        <revision>2.0.0</revision>
         <sha1></sha1>
         <changelist></changelist>
     </properties>
@@ -245,6 +245,80 @@
         </profile>
         <profile>
             <id>commit-stage</id>
+        </profile>
+        <!-- profile integration-test-stage representing integration-test-stage of CI build -->
+        <profile>
+            <id>integration-test-stage</id>
+            <properties>
+                <k8s.namespace>int</k8s.namespace>
+                <maven.install.skip>true</maven.install.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <!-- skip compilation, since we are working with an already built artifact -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <skipMain>true</skipMain>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <!-- skip unit tests, since we are working with an already built artifact -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <!-- skip JAR packaging, since we are working with an already built artifact -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <!-- skip copying resources, since we are working with an already built artifact -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-resources</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>resources</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>true</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- install/upgrade helm release -->
+                    <plugin>
+                        <groupId>group.msg.at.cloud.tools</groupId>
+                        <artifactId>helm-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>helm-install</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                                <configuration>
+                                    <helmChartDirectory>src/main/helm/${project.artifactId}</helmChartDirectory>
+                                    <helmReleaseName>${project.artifactId}</helmReleaseName>
+                                    <helmReleaseNamespace>int</helmReleaseNamespace>
+                                    <debug>true</debug>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
     <distributionManagement>

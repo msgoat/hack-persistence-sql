@@ -11,6 +11,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <javaee.version>8.0</javaee.version>
+        <payara.version>5.192</payara.version>
         <junit.version>5.3.2</junit.version>
         <common.persistence.jpa.version>1.0.2</common.persistence.jpa.version>
         <docker.registry.name>docker.at.automotive.msg.team</docker.registry.name>
@@ -23,7 +24,7 @@
         <flyway.version>5.2.4</flyway.version>
         <postgres.jdbc.version>42.2.5</postgres.jdbc.version>
         <maven.docker.plugin.version>0.27.2</maven.docker.plugin.version>
-        <maven.docker.compose.plugin.version>2.2.0</maven.docker.compose.plugin.version>
+        <maven.compose.plugin.version>1.0.0</maven.compose.plugin.version>
         <maven.enforcer.plugin.version>3.0.0-M2</maven.enforcer.plugin.version>
         <maven.failsafe.plugin.version>2.22.1</maven.failsafe.plugin.version>
         <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
@@ -35,29 +36,29 @@
         <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
         <maven.site.plugin.version>3.7.1</maven.site.plugin.version>
         <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
-        <maven.helm.plugin.version>0.9.0</maven.helm.plugin.version>
+        <maven.helm.plugin.version>1.0.0</maven.helm.plugin.version>
         <helm.tillerNamespace>sys-tiller</helm.tillerNamespace>
         <maven.flatten.plugin.version>1.1.0</maven.flatten.plugin.version>
         <!-- new Maven version management -->
-        <revision>1.0.0</revision>
+        <revision>2.0.0</revision>
         <sha1></sha1>
         <changelist></changelist>
     </properties>
     <dependencyManagement>
         <dependencies>
-            <!-- Payara JEE 8 runtime dependencies -->
-            <dependency>
-                <groupId>fish.payara.extras</groupId>
-                <artifactId>payara-embedded-all</artifactId>
-                <version>5.184</version>
-                <scope>provided</scope>
-            </dependency>
             <!-- Generic JEE 8 runtime dependencies -->
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
                 <version>${javaee.version}</version>
                 <scope>compile</scope>
+            </dependency>
+            <!-- Payara JEE 8 runtime dependencies -->
+            <dependency>
+                <groupId>fish.payara.extras</groupId>
+                <artifactId>payara-embedded-all</artifactId>
+                <version>${payara.version}</version>
+                <scope>provided</scope>
             </dependency>
             <!-- Miscellaneous 3rd party stuff -->
             <dependency>
@@ -142,7 +143,7 @@
         <dependency>
             <groupId>group.msg.at.cloud</groupId>
             <artifactId>cnj-persistence-sql-database</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
         </dependency>
     </dependencies>
     <build>
@@ -210,9 +211,9 @@
                 </plugin>
                 <!-- Docker Compose Maven plugin to run docker container groups for testing -->
                 <plugin>
-                    <groupId>com.dkanejs.maven.plugins</groupId>
-                    <artifactId>docker-compose-maven-plugin</artifactId>
-                    <version>${maven.docker.compose.plugin.version}</version>
+                    <groupId>group.msg.at.cloud.tools</groupId>
+                    <artifactId>compose-maven-plugin</artifactId>
+                    <version>${maven.compose.plugin.version}</version>
                 </plugin>
                 <!-- Flatten Maven plugin adding support of CI friendly version numbers -->
                 <plugin>
@@ -350,21 +351,19 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>com.dkanejs.maven.plugins</groupId>
-                        <artifactId>docker-compose-maven-plugin</artifactId>
+                        <groupId>group.msg.at.cloud.tools</groupId>
+                        <artifactId>compose-maven-plugin</artifactId>
                         <executions>
                             <execution>
                                 <id>start-docker-containers</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
-                                    <goal>up</goal>
+                                    <goal>upWithLogs</goal>
                                 </goals>
                                 <configuration>
                                     <composeFile>
                                         ${project.basedir}/src/test/docker/${project.artifactId}/docker-compose.yml
                                     </composeFile>
-                                    <detachedMode>true</detachedMode>
-                                    <verbose>false</verbose>
                                 </configuration>
                             </execution>
                             <execution>
@@ -579,21 +578,19 @@
                     </plugin>
                     <!-- start docker containers before running tests and stop them after running tests -->
                     <plugin>
-                        <groupId>com.dkanejs.maven.plugins</groupId>
-                        <artifactId>docker-compose-maven-plugin</artifactId>
+                        <groupId>group.msg.at.cloud.tools</groupId>
+                        <artifactId>compose-maven-plugin</artifactId>
                         <executions>
                             <execution>
                                 <id>start-docker-containers</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
-                                    <goal>up</goal>
+                                    <goal>upWithLogs</goal>
                                 </goals>
                                 <configuration>
                                     <composeFile>
                                         ${project.basedir}/src/test/docker/${project.artifactId}/docker-compose.yml
                                     </composeFile>
-                                    <detachedMode>true</detachedMode>
-                                    <verbose>false</verbose>
                                 </configuration>
                             </execution>
                             <execution>

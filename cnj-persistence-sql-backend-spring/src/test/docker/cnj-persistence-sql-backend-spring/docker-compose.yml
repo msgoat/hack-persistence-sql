@@ -27,14 +27,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: cloud
       CNAP_CLOUD: openshift
-      # Keycloak configuration: credentials should never be stored here!
-      #      KEYCLOAK_REALM: cloudtrain
-      #      KEYCLOAL_REALM-KEY: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2/Gpj3XT96oBq+8bz5CgnDr3g521pFbbBnPZhuvsSKX9Y5w4u6OW5Qq1iVuGZSIdkPDLQdiKqsT2CxkIoJgw/CXvxA9aaUwcIIQRRgnORZmwLDqirZwddfWWUaoJs2MuyHUnD9b9iBQd/ljx5t8HCwN7m/Swil7wPqyvU4FLpO3adnpXkoh5eBggEWDgLCnsLvR//9K2sXoYdSBhvbLp6DIg2YclzeJCNTG+OlJBQJW0PSp+SB2tFBkhteFXuPf/ZDiCPPuIDNg2WG99dp2zcfDoaNvqQVoRxtWJZeOs2AOBwGxFZdf899BnlF1x+1G5Y+PrxZnJVLYrl+6YBmLUhQIDAQAB"
-      #      KEYCLOAK_AUTH-SERVER-URL: "http://192.168.99.100.9080/auth"
-      #      KEYCLOAK_RESOURCE: cnj-persistence-sql
-      #      KEYCLOAK_CREDENTIALS_SECRET: 8370c903-f0a3-4fd9-8a99-51963ed01b4d
-      #      LOGGING_LEVEL_ORG_KEYCLOAK: DEBUG
-      #      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
+      KEYCLOAK_REALM: "cloudtrain"
+      KEYCLOAK_AUTH_SERVER_URL: "http://k8sapps.at.automotive.msg.team/auth"
+      KEYCLOAK_SSL_REQUIRED: "none"
+      KEYCLOAK_RESOURCE: "cnj-cloudtrain"
+      KEYCLOAK_CREDENTIALS_SECRET: "5268cc21-a423-48cc-8082-4930b070354e"
       POSTGRES_DB_USER: postgres
       POSTGRES_DB_PASSWORD: changeit
       POSTGRES_DB_NAME: cloudtrain
