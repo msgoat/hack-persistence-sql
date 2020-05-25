@@ -13,7 +13,7 @@
         <javaee.version>8.0</javaee.version>
         <javax.json.version>1.1.4</javax.json.version>
         <junit.version>5.3.2</junit.version>
-        <cnj.common.test.version>1.0.2</cnj.common.test.version>
+        <cnj.common.test.version>1.2.0</cnj.common.test.version>
         <maven.enforcer.plugin.version>3.0.0-M2</maven.enforcer.plugin.version>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
         <maven.jar.plugin.version>3.1.1</maven.jar.plugin.version>

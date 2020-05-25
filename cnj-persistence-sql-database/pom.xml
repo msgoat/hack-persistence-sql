@@ -72,12 +72,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- common persistence support -->
-            <dependency>
-                <groupId>group.msg.at.cloud.common</groupId>
-                <artifactId>cnj-common-persistence-jpa</artifactId>
-                <version>${common.persistence.jpa.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -100,10 +94,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <dependency>
-            <groupId>group.msg.at.cloud.common</groupId>
-            <artifactId>cnj-common-persistence-jpa</artifactId>
-        </dependency>
         <!-- Payara Jakarta EE 8 runtime for testing purposes -->
         <dependency>
             <groupId>fish.payara.extras</groupId>
@@ -124,12 +114,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>group.msg.at.cloud</groupId>
-            <artifactId>cnj-persistence-sql-backend-test</artifactId>
-            <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
