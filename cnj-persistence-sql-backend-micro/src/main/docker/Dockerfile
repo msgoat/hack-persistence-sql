@@ -18,4 +18,10 @@ COPY --chown=1001:0 *.war /config/apps
 
 COPY --chown=1001:0 postgres*.jar /opt/ol/wlp/lib/
 
+# Default setting for the verbose option
+ARG VERBOSE=false
+
+# see https://github.com/OpenLiberty/ci.docker/blob/master/SECURITY.md
+ENV SEC_TLS_TRUSTDEFAULTCERTS=true
+
 RUN configure.sh
