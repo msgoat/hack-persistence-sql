@@ -1,0 +1,42 @@
+<server description="Sample Servlet server">
+    <featureManager>
+        <feature>microProfile-3.3</feature>
+        <feature>jpa-2.2</feature>
+        <feature>webProfile-8.0</feature>
+    </featureManager>
+
+    <variable name="default.http.port" defaultValue="8080"/>
+    <variable name="default.https.port" defaultValue="8443"/>
+    <variable name="app.context.root" defaultValue=""/>
+
+    !-- Postgres coffee-shop-db definition -->
+    <dataSource id="DefaultDataSource"
+                jndiName="jdbc/cnj-postgres-datasource"
+                jdbcDriverRef="postgresql-driver"
+                type="javax.sql.ConnectionPoolDataSource"
+                transactional="true">
+
+        <properties serverName="${env.POSTGRES_DB_HOST}"
+                    portNumber="${env.POSTGRES_DB_PORT}"
+                    databaseName="${env.POSTGRES_DB_NAME}"
+                    user="${env.POSTGRES_DB_USER}"
+                    password="${env.POSTGRES_DB_PASSWORD}"/>
+    </dataSource>
+
+    <jdbcDriver id="postgresql-driver"
+                javax.sql.XADataSource="org.postgresql.xa.PGXADataSource"
+                javax.sql.ConnectionPoolDataSource="org.postgresql.ds.PGConnectionPoolDataSource"
+                libraryRef="postgresql-library"/>
+
+    <library id="postgresql-library">
+        <fileset id="PostgreSQLFileset" dir="/opt/ol/wlp/lib"
+                 includes="postgresql-*.jar"/>
+    </library>
+
+
+
+    <httpEndpoint httpPort="${default.http.port}"
+                  httpsPort="${default.https.port}" id="defaultHttpEndpoint" host="*"/>
+    <webApplication id="${project.artifactId}" location="${project.build.finalName}.war"
+                    contextRoot="${app.context.root}"/>
+</server>

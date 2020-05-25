@@ -1,27 +1,21 @@
-FROM docker.at41tools.k8s.aws.msgoat.eu/cloudtrain/at41-docker-jre11:2.0.0
+FROM open-liberty:full
 
-LABEL maintainer="michael.theis@msg.group" \
-        ${project.groupId}.${project.artifactId}.project="AT41" \
-        ${project.groupId}.${project.artifactId}.version="${project.version}" \
-        ${project.groupId}.${project.artifactId}.description="${project.description}"
+LABEL \
+  org.opencontainers.image.authors="Your Name" \
+  org.opencontainers.image.vendor="Open Liberty" \
+  org.opencontainers.image.url="local" \
+  org.opencontainers.image.source="https://github.com/OpenLiberty/guide-containerize" \
+  org.opencontainers.image.version="${project.version}" \
+  vendor="Open Liberty" \
+  name="inventory" \
+  version="${project.version}" \
+  summary="${project.description}" \
+  description="This image contains the inventory microservice running with the Open Liberty runtime."
 
-ENV JAVA_OPTS="" \
-    DOCKER_JAVA_OPTS="" \
-    PAYARA_JAVA_OPTS="-Djava.util.logging.ConsoleHandler.formatter=fish.payara.enterprise.server.logging.JSONLogFormatter" \
-    PAYARA_ARGUMENTS="--disablephonehome --enablehealthcheck true --nocluster --nohostaware"
+COPY --chown=1001:0 server.xml /config/
 
-RUN echo "adding run user payara to system" \
-    && addgroup -S payara -g 1000 \
-    && adduser -S payara -u 1000 -G payara
+COPY --chown=1001:0 *.war /config/apps
 
-# copy build artifact into payara deployment folder
-COPY *.jar /home/payara/
-COPY docker-entrypoint.sh /home/payara/
+COPY --chown=1001:0 postgres*.jar /opt/ol/wlp/lib/
 
-RUN chown -R payara:payara /home/payara \
-    && chmod u+x /home/payara/docker-entrypoint.sh
-
-USER payara
-
-ENTRYPOINT ["/home/payara/docker-entrypoint.sh"]
-CMD ["start"]
+RUN configure.sh

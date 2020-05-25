@@ -15,11 +15,11 @@ import javax.sql.DataSource;
  * packaged with this application or with a utility JAR of this application.
  * </p>
  */
-@Startup
-@Singleton
+//@Startup
+//@Singleton
 public class FlywayDatabaseAutoMigrator {
 
-    @Resource(lookup = "java:global/cnj-postgres-datasource")
+    @Resource(lookup = "jdbc/cnj-postgres-datasource")
     private DataSource dataSource;
 
     @PostConstruct

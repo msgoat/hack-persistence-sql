@@ -21,7 +21,7 @@ services:
   backend:
     image: docker.at41tools.k8s.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-backend-micro:latest
     ports:
-      - "38080:38080"
+      - "38080:8080"
     environment:
       MP_JWT_VERIFY_PUBLICKEY_LOCATION: "https://iam.at41tools.k8s.aws.msgoat.eu/auth/realms/cloudtrain/protocol/openid-connect/certs"
       MP_JWT_VERIFY_ISSUER: "https://iam.at41tools.k8s.aws.msgoat.eu/auth/realms/cloudtrain"
