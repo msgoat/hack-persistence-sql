@@ -19,13 +19,12 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   backend:
-    image: docker.at.automotive.msg.team/cloudtrain/cnj-persistence-sql-backend-micro:latest
+    image: docker.at41tools.k8s.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-backend-micro:latest
     ports:
-      - "8080:8080"
-      - "4848:4848"
+      - "38080:38080"
     environment:
-      MP_JWT_VERIFY_PUBLICKEY_LOCATION: "http://k8sapps.at.automotive.msg.team/auth/realms/cloudtrain/protocol/openid-connect/certs"
-      MP_JWT_VERIFY_ISSUER: "http://k8sapps.at.automotive.msg.team/auth/realms/cloudtrain"
+      MP_JWT_VERIFY_PUBLICKEY_LOCATION: "https://iam.at41tools.k8s.aws.msgoat.eu/auth/realms/cloudtrain/protocol/openid-connect/certs"
+      MP_JWT_VERIFY_ISSUER: "https://iam.at41tools.k8s.aws.msgoat.eu/auth/realms/cloudtrain"
       POSTGRES_DB_USER: postgres
       POSTGRES_DB_PASSWORD: changeit
       POSTGRES_DB_NAME: cloudtrain
