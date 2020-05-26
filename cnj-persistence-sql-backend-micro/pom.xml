@@ -9,36 +9,53 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- runtime related properties -->
         <java.version>1.8</java.version>
-        <javaee.version>8.0</javaee.version>
-        <junit.version>5.6.0</junit.version>
+        <javaee.version>8.0.1</javaee.version>
         <microprofile.version>3.3</microprofile.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <!-- common logging dependencies -->
+        <slf4j.version>1.7.30</slf4j.version>
+        <log4j.slf4j.version>2.13.0</log4j.slf4j.version>
+        <!-- common test dependencies -->
+        <junit.version>5.6.0</junit.version>
+        <backend.test.version>2.0.0</backend.test.version>
+        <!-- common persistence properties -->
+        <postgres.jdbc.version>42.2.12</postgres.jdbc.version>
+        <flyway.version>6.4.2</flyway.version>
+        <!-- docker related properties -->
         <docker.registry.name>docker.at41tools.k8s.aws.msgoat.eu</docker.registry.name>
         <docker.organization.name>cloudtrain</docker.organization.name>
         <docker.image.name>${docker.registry.name}/${docker.organization.name}/${project.artifactId}</docker.image.name>
         <docker.removeMode>all</docker.removeMode>
         <docker.cleanup>try</docker.cleanup>
         <docker.verbose>true</docker.verbose>
-        <flyway.version>6.4.2</flyway.version>
-        <postgres.jdbc.version>42.2.12</postgres.jdbc.version>
-        <maven.docker.plugin.version>0.27.2</maven.docker.plugin.version>
-        <maven.compose.plugin.version>1.0.0</maven.compose.plugin.version>
-        <maven.enforcer.plugin.version>3.0.0-M2</maven.enforcer.plugin.version>
-        <maven.failsafe.plugin.version>2.22.1</maven.failsafe.plugin.version>
-        <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
-        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
-        <maven.jar.plugin.version>3.1.1</maven.jar.plugin.version>
-        <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
+        <!-- kubernetes related properties -->
+        <k8s.cluster.route>https://apps.at41tools.k8s.aws.msgoat.eu</k8s.cluster.route>
+        <k8s.cluster.namespace>default</k8s.cluster.namespace>
+        <k8s.ingress.host></k8s.ingress.host>
+        <k8s.ingress.path>/${k8s.cluster.namespace}/${project.artifactId}</k8s.ingress.path>
+        <k8s.test.target.route>${k8s.cluster.route}${k8s.ingress.path}</k8s.test.target.route>
+        <!-- pinning versions of common maven plugins -->
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.dependency.plugin.version>3.1.1</maven.dependency.plugin.version>
         <maven.deploy.plugin.version>2.8.2</maven.deploy.plugin.version>
+        <maven.enforcer.plugin.version>3.0.0-M3</maven.enforcer.plugin.version>
+        <maven.failsafe.plugin.version>2.22.1</maven.failsafe.plugin.version>
+        <maven.flatten.plugin.version>1.2.1</maven.flatten.plugin.version>
         <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
-        <maven.site.plugin.version>3.7.1</maven.site.plugin.version>
-        <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
+        <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
+        <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
+        <maven.site.plugin.version>3.8.2</maven.site.plugin.version>
+        <maven.source.plugin.version>3.2.1</maven.source.plugin.version>
+        <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
+        <!-- pinning versions of application type specific maven plugins -->
+        <maven.war.plugin.version>3.2.3</maven.war.plugin.version>
         <maven.liberty.plugin.version>3.2.1</maven.liberty.plugin.version>
-        <maven.helm.plugin.version>1.0.0</maven.helm.plugin.version>
-        <helm.tillerNamespace>sys-tiller</helm.tillerNamespace>
-        <maven.flatten.plugin.version>1.1.0</maven.flatten.plugin.version>
+        <!-- pinning versions of cloud native specific maven plugins -->
+        <maven.compose.plugin.version>1.0.0</maven.compose.plugin.version>
+        <maven.docker.plugin.version>0.33.0</maven.docker.plugin.version>
+        <maven.helm.plugin.version>2.0.1</maven.helm.plugin.version>
         <!-- new Maven version management -->
         <revision>2.0.0</revision>
         <sha1></sha1>
@@ -46,33 +63,36 @@
     </properties>
     <dependencyManagement>
         <dependencies>
-            <!-- Java EE 8 Web Profile API -->
+            <!-- Generic JEE 8 runtime dependencies -->
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-web-api</artifactId>
                 <version>${javaee.version}</version>
                 <scope>compile</scope>
             </dependency>
-            <!-- Test runtime dependencies -->
-            <!-- JUnit 5.x -->
+            <!-- Eclipse MicroProfile runtime dependencies -->
             <dependency>
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>${junit.version}</version>
+                <groupId>org.eclipse.microprofile</groupId>
+                <artifactId>microprofile</artifactId>
+                <version>${microprofile.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- new dependencies for REST-based system tests -->
+            <!-- Miscellaneous 3rd party stuff -->
             <dependency>
-                <groupId>io.rest-assured</groupId>
-                <artifactId>rest-assured</artifactId>
-                <version>3.2.0</version>
-                <scope>test</scope>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-all</artifactId>
-                <version>1.3</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.slf4j.version}</version>
             </dependency>
             <!-- common persistence support -->
             <dependency>
@@ -85,33 +105,48 @@
                 <artifactId>postgresql</artifactId>
                 <version>${postgres.jdbc.version}</version>
             </dependency>
+            <!-- JUnit 5.x -->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <!-- Java EE dependencies -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- Payara MicroProfile API BOM imports all MicroProfile API's -->
-        <!-- declaring this particular BOM in dependencyManagement section does not work!!! -->
+        <!-- MicroProfile dependencies -->
         <dependency>
-            <groupId>org.eclipse.microprofile</groupId>
-            <artifactId>microprofile</artifactId>
-            <version>${microprofile.version}</version>
-            <type>pom</type>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- Logging is based on SLF4J over JUL -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.jwt</groupId>
+            <artifactId>microprofile-jwt-auth-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile.openapi</groupId>
+            <artifactId>microprofile-openapi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Logging is based on SLF4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>${slf4j.version}</version>
+            <scope>test</scope>
         </dependency>
         <!-- Test runtime dependencies -->
         <dependency>
@@ -140,6 +175,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -149,6 +185,7 @@
     <build>
         <pluginManagement>
             <plugins>
+                <!-- common maven plugins section -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
@@ -166,6 +203,11 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.dependency.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>${maven.deploy.plugin.version}</version>
                 </plugin>
@@ -176,25 +218,35 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>${maven.install.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>${maven.site.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven.surefire.plugin.version}</version>
-                </plugin>
-                <plugin>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.failsafe.plugin.version}</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven.install.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>${maven.resources.plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven.site.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${maven.flatten.plugin.version}</version>
+                </plugin>
+                <!-- application type specific maven plugins section -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
@@ -203,29 +255,26 @@
                         <failOnMissingWebXml>false</failOnMissingWebXml>
                     </configuration>
                 </plugin>
-                <!-- Docker Maven plugin to build and push docker images -->
-                <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>docker-maven-plugin</artifactId>
-                    <version>${maven.docker.plugin.version}</version>
-                </plugin>
-                <!-- Docker Compose Maven plugin to run docker container groups for testing -->
-                <plugin>
-                    <groupId>group.msg.at.cloud.tools</groupId>
-                    <artifactId>compose-maven-plugin</artifactId>
-                    <version>${maven.compose.plugin.version}</version>
-                </plugin>
-                <!-- OpenLiberty Maven Plugin to package uber JARs from WARs-->
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
                     <version>${maven.liberty.plugin.version}</version>
                 </plugin>
-                <!-- Flatten Maven plugin adding support of CI friendly version numbers -->
+                <!-- cloud native specific maven plugins section -->
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>flatten-maven-plugin</artifactId>
-                    <version>${maven.flatten.plugin.version}</version>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${maven.docker.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>group.msg.at.cloud.tools</groupId>
+                    <artifactId>compose-maven-plugin</artifactId>
+                    <version>${maven.compose.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>group.msg.at.cloud.tools</groupId>
+                    <artifactId>helm-maven-plugin</artifactId>
+                    <version>${maven.helm.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -326,13 +375,6 @@
                             <excludes>
                                 <exclude>**/*SystemTest.java</exclude>
                             </excludes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>io.openliberty.tools</groupId>
-                        <artifactId>liberty-maven-plugin</artifactId>
-                        <configuration>
-                            <serverName>guideServer</serverName>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -461,7 +503,6 @@
                                 </goals>
                                 <phase>integration-test</phase>
                                 <configuration>
-                                    <forkCount>0</forkCount>
                                     <includes>
                                         <include>**/*SystemTest.java</include>
                                     </includes>
