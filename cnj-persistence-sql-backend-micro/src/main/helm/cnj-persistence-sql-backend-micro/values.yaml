@@ -6,9 +6,8 @@ replicaCount: 1
 
 image:
   repository: docker.at41tools.k8s.aws.msgoat.eu/cloudtrain/cnj-persistence-sql-backend-micro
-  tag: latest
-  pullPolicy: Always
-#  pullSecret: fwp-pull-secret
+  tag: ${project.version}
+  pullPolicy: IfNotPresent
 
 probes:
   readiness:
@@ -27,16 +26,9 @@ ingress:
   enabled: true
   annotations:
     traefik.frontend.rule.type: PathPrefixStrip
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: ""
-      paths: ["/cnj-persistence-sql-backend-micro"]
-
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+    - host: "${k8s.ingress.host}"
+      paths: ["${k8s.ingress.path}"]
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -59,8 +51,8 @@ affinity: {}
 # security configuration (MP JWT AUTH)
 mp:
   jwt:
-    verifyPublicKeyLocation: "http://k8sapps.at.automotive.msg.team/auth/realms/cloudtrain/protocol/openid-connect/certs"
-    verifyIssuer: "http://k8sapps.at.automotive.msg.team/auth/realms/cloudtrain"
+    verifyPublicKeyLocation: "https://iam.at41tools.k8s.aws.msgoat.eu/auth/realms/cloudtrain/protocol/openid-connect/certs"
+    verifyIssuer: "https://iam.at41tools.k8s.aws.msgoat.eu/auth/realms/cloudtrain"
 
 # database configuration
 database:
