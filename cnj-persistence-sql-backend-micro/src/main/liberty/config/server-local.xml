@@ -1,0 +1,47 @@
+<server description="Sample Servlet server">
+    <featureManager>
+        <feature>microProfile-3.3</feature>
+        <feature>jpa-2.2</feature>
+        <feature>webProfile-8.0</feature>
+    </featureManager>
+
+    <variable name="default.http.port" defaultValue="8080"/>
+    <variable name="default.https.port" defaultValue="8443"/>
+    <variable name="app.context.root" defaultValue="/"/>
+
+    !-- Postgres coffee-shop-db definition -->
+    <dataSource id="DefaultDataSource"
+                jndiName="jdbc/cnj-postgres-datasource"
+                jdbcDriverRef="postgresql-driver"
+                type="javax.sql.ConnectionPoolDataSource"
+                transactional="true">
+
+        <properties serverName="localhost"
+                    portNumber="5432"
+                    databaseName="cloudtrain"
+                    user="postgres"
+                    password="changeit"/>
+    </dataSource>
+
+    <jdbcDriver id="postgresql-driver"
+                javax.sql.XADataSource="org.postgresql.xa.PGXADataSource"
+                javax.sql.ConnectionPoolDataSource="org.postgresql.ds.PGConnectionPoolDataSource"
+                libraryRef="postgresql-library"/>
+
+    <library id="postgresql-library">
+        <fileset id="PostgreSQLFileset" dir="${wlp.install.dir}/../../liberty-resources"
+                 includes="postgresql-*.jar"/>
+    </library>
+
+
+    <mpJwt
+            id="defaultMpJwt"
+            jwksUri="https://iam.at41tools.k8s.aws.msgoat.eu/auth/realms/cloudtrain/protocol/openid-connect/certs"
+            issuer="https://iam.at41tools.k8s.aws.msgoat.eu/auth/realms/cloudtrain"
+            audiences="account">
+
+    </mpJwt>
+
+    <httpEndpoint httpPort="${default.http.port}" id="defaultHttpEndpoint" host="*"/>
+    <webApplication location="${artifactId}.war" contextRoot="${app.context.root}"/>
+</server>
