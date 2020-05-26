@@ -34,9 +34,14 @@
     </library>
 
 
+    <mpJwt
+            id="defaultMpJwt"
+            jwksUri="${env.MP_JWT_VERIFY_PUBLICKEY_LOCATION}"
+            issuer="${env.MP_JWT_VERIFY_ISSUER}"
+            audiences="account">
+    </mpJwt>
 
-    <httpEndpoint httpPort="${default.http.port}"
-                  httpsPort="${default.https.port}" id="defaultHttpEndpoint" host="*"/>
+    <httpEndpoint httpPort="${default.http.port}" id="defaultHttpEndpoint" host="*"/>
     <webApplication id="${project.artifactId}" location="${project.build.finalName}.war"
                     contextRoot="${app.context.root}"/>
 </server>
