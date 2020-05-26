@@ -12,7 +12,7 @@ import javax.ws.rs.core.Application;
  */
 @ApplicationScoped
 @ApplicationPath("api")
-@LoginConfig(authMethod = "MP-JWT", realmName = "MP-JWT")
+@LoginConfig(authMethod = "MP-JWT")
 public class JaxRsConfiguration extends Application {
 
 }

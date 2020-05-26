@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Simple DTO that holds name and value of query parameters.
  *
- * @author Michael Theis (michael.theis@hm.edu)
+ * @author Michael Theis (michael.theis@msg.group)
  * @version 1.0
  * @since release SS2019
  */

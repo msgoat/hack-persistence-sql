@@ -13,7 +13,7 @@ import java.util.UUID;
  * {@code UUID} attribute values to {@code UUID} db column values.
  * </p>
  *
- * @author Michael Theis (michael.theis@hm.edu)
+ * @author Michael Theis (michael.theis@msg.group)
  * @version 1.0
  * @since release SS2019
  */

@@ -3,6 +3,7 @@ package group.msg.at.cloud.cloudtrain.adapter.rest;
 import group.msg.at.cloud.cloudtrain.core.boundary.TaskManagement;
 import group.msg.at.cloud.cloudtrain.core.entity.Task;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -20,6 +21,9 @@ import java.util.UUID;
  */
 @RequestScoped
 @Path("v1/tasks")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("CLOUDTRAIN_USER")
 public class TasksResource {
 
     @Context

@@ -5,21 +5,4 @@
     <!-- the only reason to explicitly add this descriptor is to define the context path -->
     <!-- which is supposed to be the default root when exposing micro services -->
     <default-context-path>/</default-context-path>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>ProtectedRestApi</web-resource-name>
-            <url-pattern>/api/v1/tasks/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>CLOUDTRAIN_USER</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <!--
-        <login-config>
-            <auth-method>MP-JWT</auth-method>
-        </login-config>
-    -->
-    <security-role>
-        <role-name>CLOUDTRAIN_USER</role-name>
-    </security-role>
 </web-app>
